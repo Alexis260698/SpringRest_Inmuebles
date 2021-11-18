@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 public class CobranzaController {
-
+/*
     @Autowired
     private CobranzaRepository cobranzaRepository;
 
@@ -41,5 +41,7 @@ public class CobranzaController {
     }
 
 
+
+ */
 
 }

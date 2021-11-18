@@ -11,7 +11,7 @@ import java.util.Optional;
 @Component
 @Getter @Setter
 public class InmuebleRepository {
-
+/*
     @Autowired
     private SistemaRepository sistemaRepository;
 
@@ -38,4 +38,5 @@ public class InmuebleRepository {
 
     }
 
+    */
 }

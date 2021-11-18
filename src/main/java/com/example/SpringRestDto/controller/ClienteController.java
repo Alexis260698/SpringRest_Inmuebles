@@ -4,17 +4,20 @@ import com.example.SpringRestDto.configuration.Exceptions.Cliente.ClienteExisten
 import com.example.SpringRestDto.configuration.Exceptions.Cliente.ClienteNotFoundException;
 import com.example.SpringRestDto.dto.ClienteDto;
 import com.example.SpringRestDto.entity.Cliente;
+import com.example.SpringRestDto.entity.Teacher;
 import com.example.SpringRestDto.repository.ClienteRepository;
 import com.example.SpringRestDto.repository.SistemaRepository;
+import com.example.SpringRestDto.repository.TeacherRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 public class ClienteController {
 
     @Autowired
@@ -24,11 +27,14 @@ public class ClienteController {
     private SistemaRepository sistemaRepository;
 
     @Autowired
+    private TeacherRepository teacherRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     public ClienteController() {
     }
-
+/*
     @GetMapping("/buscarCliente/{dni}")
     public ResponseEntity<ClienteDto> buscarCliente(@PathVariable("dni") String dni) throws ClienteNotFoundException {
         Optional<Cliente> optionalCliente = clienteRepository.buscarCliente(dni);
@@ -39,20 +45,37 @@ public class ClienteController {
             throw new ClienteNotFoundException();
         }
     }
+*/
 
-    @PostMapping("/crearCliente")
-    public ResponseEntity<ClienteDto> CrearCliente(@RequestBody ClienteDto clienteDto) throws ClienteExistenteException {
-        Optional<Cliente> existeCliente = clienteRepository.buscarCliente(clienteDto.getDni());
-
-        if (existeCliente.isPresent()) {
-            throw new ClienteExistenteException();
-        }
-
-        Cliente cliente = modelMapper.map(clienteDto, Cliente.class);
-        sistemaRepository.getListaClientes().add(cliente);
-        return ResponseEntity.ok(clienteDto);
+    @GetMapping("/traerTodos")
+    public List<Cliente> getClientes(){
+        return clienteRepository.getClientes();
     }
 
+    @PostMapping("/crearCliente")
+    public ResponseEntity<Cliente> CrearCliente(@RequestBody Cliente cliente)  {
+        clienteRepository.CrearCliente(cliente);
+        return ResponseEntity.ok(cliente);
+    }
+
+    @GetMapping("/teacher/{nombre}/{edad}")
+    public List<Teacher> getTeacherByNameyAge(@PathVariable("nombre") String nombre, @PathVariable("edad") Integer edad){
+        return clienteRepository.getTeachersbyNameAndAge(nombre,edad);
+    }
+
+    @GetMapping("/teacherByQuery/{nombre}/{edad}")
+    public List<Teacher> getTeacherByNameyAgeByQuery(@PathVariable("nombre") String nombre, @PathVariable("edad") Integer edad){
+        return teacherRepository.findTeacherByNombreAndEdadPorQueryNativa(nombre,edad);
+    }
+
+    @GetMapping("/teacherByJPQL/{nombre}/{edad}")
+    public List<Teacher> getTeacherByNameyAgeByJPQL(@PathVariable("nombre") String nombre, @PathVariable("edad") Integer edad){
+        return teacherRepository.findTeacherByNombreAndEdadPorJPQL(nombre,edad);
+    }
+
+
+
+    /*
     @DeleteMapping("/eliminarCliente/{dni}")
     public ResponseEntity<ClienteDto> eliminarCliente(@PathVariable("dni") String dni) throws ClienteNotFoundException{
         Optional<Cliente> existeCliente=clienteRepository.buscarCliente(dni);
@@ -72,13 +95,14 @@ public class ClienteController {
         if(existeCliente.isEmpty()){
             throw new ClienteNotFoundException();
         }
-
         Cliente clienteNuevo= modelMapper.map(clienteDto,Cliente.class);
         clienteRepository.actualizarCliente(clienteNuevo);
-
         return ResponseEntity.ok(clienteDto);
     }
 
-
-
+    @GetMapping("/traerTodos")
+    public ResponseEntity<List<Cliente>> listaClientes(){
+        return ResponseEntity.ok(sistemaRepository.getListaClientes());
+    }
+*/
 }

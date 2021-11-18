@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Controller
 public class InmuebleController {
-
+/*
     @Autowired
     private InmuebleRepository inmuebleRepository;
 
@@ -79,4 +79,6 @@ public class InmuebleController {
 
         return ResponseEntity.ok(inmuebleDto);
     }
+
+ */
 }

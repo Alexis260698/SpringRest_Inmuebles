@@ -14,7 +14,7 @@ import java.util.Optional;
 @Component
 @Getter @Setter
 public class CobranzaRepository {
-
+/*
     @Autowired
     private SistemaRepository sistemaRepository;
 
@@ -38,5 +38,5 @@ public class CobranzaRepository {
     public Optional<Cobranza> buscarCobranza(Integer numero){
         return sistemaRepository.getListaCobranzas().stream().filter(c->c.getNumero().equals(numero)).findFirst();
     }
-
+*/
 }

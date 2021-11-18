@@ -1,11 +1,13 @@
 package com.example.SpringRestDto.repository;
 
 import com.example.SpringRestDto.entity.Cliente;
+import com.example.SpringRestDto.entity.Teacher;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -16,10 +18,26 @@ public class ClienteRepository {
     @Autowired
     private SistemaRepository sistemaRepository;
 
+    @Autowired
+    private ClienteRepositoryDao clienteRepositoryDao;
+
+    @Autowired
+    private TeacherRepository teacherRepository;
+
     public void CrearCliente(Cliente cliente) {
-        sistemaRepository.getListaClientes().add(cliente);
+        clienteRepositoryDao.save(cliente);
     }
 
+    public List<Cliente> getClientes(){
+        return (List<Cliente>) clienteRepositoryDao.findAll();
+    }
+
+    public List<Teacher> getTeachersbyNameAndAge(String nombre, Integer edad) {
+    return teacherRepository.findTeacherByNombreAndEdad(nombre, edad);
+    }
+
+
+/*
     public void eliminarCliente(String dni) {
         sistemaRepository.getListaClientes().removeIf(cliente -> cliente.getDni().equals(dni));
     }
@@ -36,6 +54,6 @@ public class ClienteRepository {
             }
         }
     }
-
+*/
 
 }
